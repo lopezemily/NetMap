@@ -3,6 +3,7 @@ package app;
 import modelos.Roteador;
 import modelos.Terminal;
 import tad.ListaDinamica;
+import tad.No;
 
 public class NetMap {
 
@@ -18,12 +19,18 @@ public class NetMap {
         if (roteador == null) {
             throw new NullPointerException("O roteador não pode ser nulo");
         }
+        if(listaRoteadores.exist(roteador)){
+            throw new RuntimeException("O roteador já foi cadastrado");
+        }
         listaRoteadores.insert(roteador);
     }
 
     public void cadastrar(Terminal terminal) {
         if (terminal == null) {
             throw new NullPointerException("O terminal não pode ser nulo");
+        }
+        if(listaTerminais.exist(terminal)){
+            throw new RuntimeException("O terminal já foi cadastrado");
         }
         listaTerminais.insert(terminal);
     }
@@ -147,7 +154,16 @@ public class NetMap {
 
     }
 
+    @Override
     public String toString() {
+        StringBuilder saida = new StringBuilder();
 
+        saida.append("Lista de terminais:\n");
+        saida.append(listaTerminais.toString());
+        saida.append("\n");
+        saida.append("Lista de roteadores:\n");
+        saida.append(listaRoteadores.toString());
+
+        return saida.toString();
     }
 }

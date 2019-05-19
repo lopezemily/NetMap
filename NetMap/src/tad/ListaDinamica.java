@@ -156,7 +156,7 @@ public class ListaDinamica<Tipo> {
 
         No atual = inicio;
         while (atual != null) {
-            saida.append(atual.dado).append(" ");
+            saida.append(atual.dado).append("\n");
 
             atual = atual.prox;
         }

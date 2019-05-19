@@ -37,5 +37,10 @@ public class Roteador {
     public String getOperadora() {
         return operadora;
     }
+    
+    @Override
+    public String toString() {
+        return nome+" "+operadora;
+    }
 
 }
