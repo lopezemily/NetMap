@@ -76,7 +76,7 @@ public class AppNetMap {
         int opcaoEscolhida = -1;
         while (opcaoEscolhida != 0) {
             try {
-                String opcao = JOptionPane.showInputDialog(textoMenu());
+                String opcao = JOptionPane.showInputDialog(null, textoMenu(), "Menu principal", INFORMATION_MESSAGE);
 
                 opcaoEscolhida = Integer.valueOf(opcao);
 
@@ -121,7 +121,7 @@ public class AppNetMap {
                         break;
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.toString(), "Erro", YES_OPTION);
+                JOptionPane.showMessageDialog(null, e.toString(), "Erro", ERROR_MESSAGE);
             }
 
         }
@@ -150,15 +150,15 @@ public class AppNetMap {
         String nomeOperadora = JOptionPane.showInputDialog("Qual é o nome da operadora?");
         Roteador r = new Roteador(nomeRoteador, nomeOperadora);
         netMap.cadastrar(r);
-        JOptionPane.showMessageDialog(null, "Roteador cadastrado com sucesso! =D");
+        JOptionPane.showMessageDialog(null, "Roteador cadastrado com sucesso! =D", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void cadastrarTerminal() {
         String nomeTerminal = JOptionPane.showInputDialog("Qual é o nome do terminal?");
-        String nomeLocalizacao = JOptionPane.showInputDialog("Qual a localizacao do terminal??");
+        String nomeLocalizacao = JOptionPane.showInputDialog("Qual a localizacao do terminal?");
         Terminal t = new Terminal(nomeTerminal, nomeLocalizacao);
         netMap.cadastrar(t);
-        JOptionPane.showMessageDialog(null, "Terminal cadastrado com sucesso! =D");
+        JOptionPane.showMessageDialog(null, "Terminal cadastrado com sucesso! =D", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void conectarRoteador() {
@@ -167,7 +167,7 @@ public class AppNetMap {
         Roteador roteador1 = netMap.buscarRoteador(nomeRoteador1);
         Roteador roteador2 = netMap.buscarRoteador(nomeRoteador2);
         netMap.conectar(roteador1, roteador2);
-        JOptionPane.showMessageDialog(null, "Conexão realizada com sucesso!");
+        JOptionPane.showMessageDialog(null, "Conexão realizada com sucesso!", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void conectarTerminal() {
@@ -176,7 +176,7 @@ public class AppNetMap {
         Roteador roteador = netMap.buscarRoteador(nomeRoteador);
         Terminal terminal = netMap.buscarTerminal(nomeTerminal);
         netMap.conectar(terminal, roteador);
-        JOptionPane.showMessageDialog(null, "Conexão realizada com sucesso!");
+        JOptionPane.showMessageDialog(null, "Conexão realizada com sucesso!", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void desconectarRoteador() {
@@ -185,41 +185,41 @@ public class AppNetMap {
         Roteador roteador1 = netMap.buscarRoteador(nomeRoteador1);
         Roteador roteador2 = netMap.buscarRoteador(nomeRoteador2);
         netMap.desconectar(roteador1, roteador2);
-        JOptionPane.showMessageDialog(null, "Desconectado com sucesso!");
+        JOptionPane.showMessageDialog(null, "Desconectado com sucesso!", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void desconectarTerminal() {
         String nomeTerminal = JOptionPane.showInputDialog("Qual é o nome do terminal?");
         Terminal terminal = netMap.buscarTerminal(nomeTerminal);
         netMap.desconectar(terminal);
-        JOptionPane.showMessageDialog(null, "Desconectado com sucesso!");
+        JOptionPane.showMessageDialog(null, "Desconectado com sucesso!", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void removerRoteador() {
         String nomeRoteador = JOptionPane.showInputDialog("Qual é o nome do roteador?");
         Roteador roteador = netMap.buscarRoteador(nomeRoteador);
         netMap.removerRoteador(roteador);
-        JOptionPane.showMessageDialog(null, "Roteador removido com sucesso!");
+        JOptionPane.showMessageDialog(null, "Roteador removido com sucesso!", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void removerTerminal() {
         String nomeTerminal = JOptionPane.showInputDialog("Qual é o nome do terminal?");
         Terminal terminal = netMap.buscarTerminal(nomeTerminal);
         netMap.removerTerminal(terminal);
-        JOptionPane.showMessageDialog(null, "Terminal removido com sucesso!");
+        JOptionPane.showMessageDialog(null, "Terminal removido com sucesso!", "Sucesso", PLAIN_MESSAGE);
     }
 
     private static void calcularFrequenciaTerminal() {
         String nomeLocalizacao = JOptionPane.showInputDialog("Qual a localização do terminal?");
         int total = netMap.calcularFrequenciaTerminal(nomeLocalizacao);
-        JOptionPane.showMessageDialog(null, "O número de terminais em " + nomeLocalizacao + " é: " + total);
+        JOptionPane.showMessageDialog(null, "O número de terminais em " + nomeLocalizacao + " é: " + total, "Informação", INFORMATION_MESSAGE);
 
     }
 
     private static void calcularFrequenciaRoteador() {
         String nomeOperadora = JOptionPane.showInputDialog("Qual a operadora do roteador?");
         int total = netMap.calcularFrequenciaRoteador(nomeOperadora);
-        JOptionPane.showMessageDialog(null, "O número de roteadores de " + nomeOperadora + " é: " + total);
+        JOptionPane.showMessageDialog(null, "O número de roteadores de " + nomeOperadora + " é: " + total, "Informação", INFORMATION_MESSAGE);
     }
 
     private static void enviarPacoteDados() {
@@ -229,14 +229,14 @@ public class AppNetMap {
         Terminal terminal2 = netMap.buscarTerminal(nomeTerminal2);
         boolean pacoteEnviado = netMap.enviarPacoteDados(terminal1, terminal2);
         if (pacoteEnviado) {
-            JOptionPane.showMessageDialog(null, "Pacote enviado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Pacote enviado com sucesso!", "Sucesso", PLAIN_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Pacote não enviado.");
+            JOptionPane.showMessageDialog(null, "Pacote não enviado.", "Erro", ERROR_MESSAGE);
         }
     }
 
     private static void exibirComponenetes() {
-        JOptionPane.showMessageDialog(null, netMap.toString(), "Componentes da rede", YES_OPTION);
+        JOptionPane.showMessageDialog(null, netMap.toString(), "Componentes da rede", PLAIN_MESSAGE);
     }
 
 }
