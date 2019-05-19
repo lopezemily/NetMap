@@ -3,23 +3,22 @@ package app;
 import modelos.Roteador;
 import modelos.Terminal;
 import tad.ListaDinamica;
-import tad.No;
 
 public class NetMap {
 
-    private ListaDinamica<Terminal> listaTerminais;
-    private ListaDinamica<Roteador> listaRoteadores;
+    private final ListaDinamica<Terminal> listaTerminais;
+    private final ListaDinamica<Roteador> listaRoteadores;
 
     public NetMap() {
-        this.listaTerminais = new ListaDinamica<Terminal>();
-        this.listaRoteadores = new ListaDinamica<Roteador>();
+        this.listaTerminais = new ListaDinamica<>();
+        this.listaRoteadores = new ListaDinamica<>();
     }
 
     public void cadastrar(Roteador roteador) {
         if (roteador == null) {
             throw new NullPointerException("O roteador não pode ser nulo");
         }
-        if(listaRoteadores.exist(roteador)){
+        if (listaRoteadores.exist(roteador)) {
             throw new RuntimeException("O roteador já foi cadastrado");
         }
         listaRoteadores.insert(roteador);
@@ -29,7 +28,7 @@ public class NetMap {
         if (terminal == null) {
             throw new NullPointerException("O terminal não pode ser nulo");
         }
-        if(listaTerminais.exist(terminal)){
+        if (listaTerminais.exist(terminal)) {
             throw new RuntimeException("O terminal já foi cadastrado");
         }
         listaTerminais.insert(terminal);
@@ -107,7 +106,7 @@ public class NetMap {
         int cont = 0;
         for (int i = 0; i < listaTerminais.size(); i++) {
             Terminal t = listaTerminais.get(i);
-            if (t.getLocalizacao() == localizacao) {
+            if (t.getLocalizacao().equals(localizacao)) {
                 cont++;
             }
         }
@@ -118,7 +117,7 @@ public class NetMap {
         int cont = 0;
         for (int i = 0; i < listaRoteadores.size(); i++) {
             Roteador r = listaRoteadores.get(i);
-            if (r.getOperadora() == operadora) {
+            if (r.getOperadora().equals(operadora)) {
                 cont++;
             }
         }
@@ -130,8 +129,8 @@ public class NetMap {
         if (terminal1.roteador == null || terminal2.roteador == null) {
             return false;
         }
-        ListaDinamica<Roteador> listaRoteadoresVisitados = new ListaDinamica<Roteador>();
-        ListaDinamica<Roteador> listaRoteadoresParaVisitar = new ListaDinamica<Roteador>();
+        ListaDinamica<Roteador> listaRoteadoresVisitados = new ListaDinamica<>();
+        ListaDinamica<Roteador> listaRoteadoresParaVisitar = new ListaDinamica<>();
         listaRoteadoresParaVisitar.insert(terminal1.roteador);
 
         while (!listaRoteadoresParaVisitar.isEmpty()) {
@@ -165,5 +164,35 @@ public class NetMap {
         saida.append(listaRoteadores.toString());
 
         return saida.toString();
+    }
+
+    public Roteador buscarRoteador(String nome) {
+        if (nome.isEmpty()) {
+            throw new NullPointerException("O nome não pode ser vazio");
+        }
+        
+        for (int i = 0; i < listaRoteadores.size(); i++) {
+            Roteador temp = listaRoteadores.get(i);
+            if(temp.getNome().equals(nome)){
+                return temp;
+            }
+        }
+        throw new RuntimeException("Roteador não encontrado!");
+
+    }
+    
+    public Terminal buscarTerminal(String nome) {
+        if (nome.isEmpty()) {
+            throw new NullPointerException("O nome não pode ser vazio");
+        }
+        
+        for (int i = 0; i < listaTerminais.size(); i++) {
+            Terminal temp = listaTerminais.get(i);
+            if(temp.getNome().equals(nome)){
+                return temp;
+            }
+        }
+        throw new RuntimeException("Terminal não encontrado!");
+
     }
 }
