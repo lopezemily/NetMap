@@ -71,22 +71,79 @@ public class NetMap {
     }
 
     public void conectar(Roteador roteador1, Roteador roteador2) {
+        if (roteador1 == null || roteador2 == null) {
+            throw new NullPointerException("O roteador não pode ser nulo");
+        }
+        if (listaRoteadores.exist(roteador1) && listaRoteadores.exist(roteador2)) {
+            roteador1.listaRoteadores.insert(roteador2);
+            roteador2.listaRoteadores.insert(roteador1);
+        } else {
+            throw new RuntimeException("Rotedor não está cadastrado");
+        }
 
     }
 
     public void desconectar(Roteador roteador1, Roteador roteador2) {
+        if (roteador1 == null || roteador2 == null) {
+            throw new NullPointerException("O roteador não pode ser nulo");
+        }
+        if (listaRoteadores.exist(roteador1) && listaRoteadores.exist(roteador2)) {
+            roteador1.listaRoteadores.remove(roteador2);
+            roteador2.listaRoteadores.remove(roteador1);
+        } else {
+            throw new RuntimeException("Rotedor não está cadastrado");
+        }
 
     }
 
-    public String calcularFrequenciaTerminal(String localizacao) {
-
+    public int calcularFrequenciaTerminal(String localizacao) {
+        int cont = 0;
+        for (int i = 0; i < listaTerminais.size(); i++) {
+            Terminal t = listaTerminais.get(i);
+            if (t.getLocalizacao() == localizacao) {
+                cont++;
+            }
+        }
+        return cont;
     }
 
-    public String calcularFrequenciaRoteador(String operadora) {
+    public int calcularFrequenciaRoteador(String operadora) {
+        int cont = 0;
+        for (int i = 0; i < listaRoteadores.size(); i++) {
+            Roteador r = listaRoteadores.get(i);
+            if (r.getOperadora() == operadora) {
+                cont++;
+            }
+        }
+        return cont;
 
     }
 
     public boolean enviarPacoteDados(Terminal terminal1, Terminal terminal2) {
+        if (terminal1.roteador == null || terminal2.roteador == null) {
+            return false;
+        }
+        ListaDinamica<Roteador> listaRoteadoresVisitados = new ListaDinamica<Roteador>();
+        ListaDinamica<Roteador> listaRoteadoresParaVisitar = new ListaDinamica<Roteador>();
+        listaRoteadoresParaVisitar.insert(terminal1.roteador);
+
+        while (!listaRoteadoresParaVisitar.isEmpty()) {
+            Roteador aux = listaRoteadoresParaVisitar.remove(0);
+            listaRoteadoresVisitados.insert(aux);
+
+            if (aux.listaTerminais.exist(terminal2)) {
+                return true;
+            } else {
+                for (int i = 0; i < aux.listaRoteadores.size(); i++) {
+                    Roteador r = aux.listaRoteadores.get(i);
+                    if (!listaRoteadoresVisitados.exist(r)) {
+                        listaRoteadoresParaVisitar.insert(r);
+                    }
+                }
+
+            }
+        }
+        return false;
 
     }
 
