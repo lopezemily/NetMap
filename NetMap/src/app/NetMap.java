@@ -18,7 +18,7 @@ public class NetMap {
         if (roteador == null) {
             throw new NullPointerException("O roteador não pode ser nulo");
         }
-        if (listaRoteadores.exist(roteador)) {
+        if (roteadorExiste(roteador.getNome())) {
             throw new RuntimeException("O roteador já foi cadastrado");
         }
         listaRoteadores.insert(roteador);
@@ -28,7 +28,7 @@ public class NetMap {
         if (terminal == null) {
             throw new NullPointerException("O terminal não pode ser nulo");
         }
-        if (listaTerminais.exist(terminal)) {
+        if (terminalExiste(terminal.getNome())) {
             throw new RuntimeException("O terminal já foi cadastrado");
         }
         listaTerminais.insert(terminal);
@@ -170,29 +170,45 @@ public class NetMap {
         if (nome.isEmpty()) {
             throw new NullPointerException("O nome não pode ser vazio");
         }
-        
+
         for (int i = 0; i < listaRoteadores.size(); i++) {
             Roteador temp = listaRoteadores.get(i);
-            if(temp.getNome().equals(nome)){
+            if (temp.getNome().equals(nome)) {
                 return temp;
             }
         }
         throw new RuntimeException("Roteador não encontrado!");
 
     }
-    
+
     public Terminal buscarTerminal(String nome) {
         if (nome.isEmpty()) {
             throw new NullPointerException("O nome não pode ser vazio");
         }
-        
+
         for (int i = 0; i < listaTerminais.size(); i++) {
             Terminal temp = listaTerminais.get(i);
-            if(temp.getNome().equals(nome)){
+            if (temp.getNome().equals(nome)) {
                 return temp;
             }
         }
         throw new RuntimeException("Terminal não encontrado!");
 
+    }
+
+    public boolean roteadorExiste(String nome) {
+        try {
+            return buscarRoteador(nome) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean terminalExiste(String nome) {
+        try {
+            return buscarTerminal(nome) != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
